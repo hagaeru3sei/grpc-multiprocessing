@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  grpc-server:
+    container_name: grpc-server
+    build:
+      context: .
+      dockerfile: docker/grpc/Dockerfile
+    ports:
+      - "50051:50051"
+      - "50052:50052"
+      - "50053:50053"
+      - "50054:50054"
+    #command: ["python3.7", "server.py"]
+    command: ["sleep", "3600"]
+    restart: always
+  proxy:
+    container_name: proxy
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    command: ["nginx", "-g", "daemon off;"]
+    restart: always
+networks:
+  default:
+    driver: bridge

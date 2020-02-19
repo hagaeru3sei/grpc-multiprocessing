@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package hagaeru3sei;
+
+message Request {
+    string message = 1;
+}
+
+message Reply {
+    message Response {
+      string key = 1;
+      string value = 2;
+    }
+    repeated Response responses = 1;
+}
+
+service ExampleService {
+  rpc ExampleServer (Request) returns (Reply) {}
+}
