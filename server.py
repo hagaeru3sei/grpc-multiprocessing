@@ -130,15 +130,14 @@ def main():
                 is_updated = servicer.update_shared_memory(shared_memory)
                 if is_updated:
                     logger.debug("Updated shared memory")
-                    for port in servers:
-                        servers[port].terminate()
                     servicer = ExampleServicer(shared_memory)
-                    servers = {}
-                    for port in ports:
-                        servers[str(port)] = Process(target=_run_server, args=(servicer, port,))
                     for port in servers:
-                        server = servers[port]
-                        server.start()
+                        servers[port].kill()
+                        while servers[port].is_alive():
+                            time.sleep(.1)
+                        servers[port] = Process(target=_run_server, args=(servicer, int(port),))
+                        servers[port].start()
+                        time.sleep(.1)
                 time.sleep(1)
         except KeyboardInterrupt:
             for port in servers:
