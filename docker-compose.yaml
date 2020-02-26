@@ -10,7 +10,7 @@ services:
       - "50052:50052"
       - "50053:50053"
       - "50054:50054"
-    command: ["python3.7", "server.py"]
+    command: ["/usr/bin/supervisord"]
     restart: always
   proxy:
     container_name: proxy

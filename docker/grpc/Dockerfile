@@ -2,7 +2,9 @@ FROM ubuntu:18.04
 
 RUN apt-get update
 RUN apt-get install -y python3.7 python3.7-dev python3.7-venv python3.7-distutils build-essential libsnappy-dev libbz2-dev net-tools curl
+RUN apt-get install -y supervisor
 
+COPY ./docker/grpc/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./requirements.txt /tmp/requirements.txt
 
 WORKDIR /tmp
